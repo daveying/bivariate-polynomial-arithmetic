@@ -6,9 +6,12 @@ using namespace std;
 class PolynomialNode
 {
 public:
-	PolynomialNode(int nodeOrder) :order(nodeOrder) {}
-
+	//PolynomialNode(int nodeOrder) :order(nodeOrder) {}
+	PolynomialNode(int nodeOrder, string vname) :order(nodeOrder), variableName(vname) {}
 	int order;		// the order of the node
+	string variableName;
+
+	virtual void Print(bool flag) = 0;
 
 	// these are needed for sort() function
 	bool operator<(const PolynomialNode &second)  

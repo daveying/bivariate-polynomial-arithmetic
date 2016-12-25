@@ -42,7 +42,7 @@ int main()
 	m2.Add(m1);
 	cout << "m2 + m1: ";
 	m2.Print();
-	m2.Substract(m1);
+	m2.Subtract(m1);
 	cout << "m2 - m1: ";
 	m2.Print();
 

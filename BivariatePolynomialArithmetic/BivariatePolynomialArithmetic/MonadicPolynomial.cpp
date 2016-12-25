@@ -58,7 +58,7 @@ void MonadicPolynomial::EraseZeroItem()
 void MonadicPolynomial::Insert(const MonadicPolynomialNode &node)
 {
 	MonadicPolynomialNode *head = this->monadicPolynomial_, *ptr = this->monadicPolynomial_;
-	MonadicPolynomialNode *ptrNode = new MonadicPolynomialNode(node.coefficient, node.order);
+	MonadicPolynomialNode *ptrNode = new MonadicPolynomialNode(node);
 	if (head == 0)
 	{
 		this->monadicPolynomial_ = ptrNode;
@@ -129,7 +129,7 @@ void MonadicPolynomial::Add(const MonadicPolynomial &another)
 	this->EraseZeroItem();
 }
 
-void MonadicPolynomial::Substract(const MonadicPolynomial &another)
+void MonadicPolynomial::Subtract(const MonadicPolynomial &another)
 {
 	MonadicPolynomial temp(another);
 	temp.Inverse();
@@ -156,12 +156,12 @@ MonadicPolynomial::MonadicPolynomial(vector<MonadicPolynomialNode> nodes, string
 			if (first)	//if i == nodes.size() - 1, then this is first node.
 			{
 				first = false;
-				this->monadicPolynomial_ = new MonadicPolynomialNode(nodes[i].coefficient, nodes[i].order);
+				this->monadicPolynomial_ = new MonadicPolynomialNode(nodes[i].coefficient, nodes[i].order, name);
 				ptr = this->monadicPolynomial_;
 			}
 			else		//this is not first node
 			{
-				ptr->next = new MonadicPolynomialNode(nodes[i].coefficient, nodes[i].order);
+				ptr->next = new MonadicPolynomialNode(nodes[i].coefficient, nodes[i].order, name);
 				ptr = ptr->next;
 			}
 		}
@@ -198,12 +198,12 @@ MonadicPolynomial::MonadicPolynomial(const MonadicPolynomial &another)
 	}
 	MonadicPolynomialNode *ptr = another.monadicPolynomial_;
 	MonadicPolynomialNode *thisPtr = 0, *head = 0;
-	head = new MonadicPolynomialNode(ptr->coefficient, ptr->order);
+	head = new MonadicPolynomialNode(*ptr);
 	ptr = ptr->next;
 	thisPtr = head;
 	while (ptr != 0) //copy all nodes from another in this loop
 	{
-		thisPtr->next = new MonadicPolynomialNode(ptr->coefficient, ptr->order);
+		thisPtr->next = new MonadicPolynomialNode(*ptr);
 		ptr = ptr->next;
 		thisPtr = thisPtr->next;
 	}
@@ -225,48 +225,6 @@ MonadicPolynomial::~MonadicPolynomial()
 	delete temp;
 }
 
-void MonadicPolynomial::PrintNode(const MonadicPolynomialNode &node, bool first)
-{
-	if (first)
-	{
-		if (node.coefficient > 0 && node.coefficient != 1.0)
-			std::cout << node.coefficient;
-		if (node.coefficient < 0 && node.coefficient != -1.0)
-			std::cout << node.coefficient;
-		if (node.coefficient == -1.0)
-			std::cout << "-";
-	}
-	else
-	{
-		if (node.coefficient > 0)
-		{
-			if (node.coefficient != 1.0)
-				std::cout << " + " << node.coefficient;
-			else
-			{
-				std::cout << " + ";
-				if (node.order == 0)
-					std::cout << node.coefficient;
-			}
-		}
-		if (node.coefficient < 0)
-		{
-			if (node.coefficient != -1.0)
-				std::cout << " - " << -node.coefficient;
-			else
-			{
-				std::cout << " - ";
-				if (node.order == 0)
-					std::cout << -node.coefficient;
-			}
-		}
-	}
-	if (node.order == 0)
-		return;
-	cout << this->variableName_;
-	if (node.order != 1)
-		std::cout << "^" << node.order;
-}
 
 void MonadicPolynomial::Print(bool flag)
 {
@@ -276,10 +234,12 @@ void MonadicPolynomial::Print(bool flag)
 		if (first)
 		{
 			first = false;
-			this->PrintNode(*ptr, true);
+			//this->PrintNode(*ptr, true);
+			ptr->Print(true);
 		}
 		else
-			this->PrintNode(*ptr);
+			//this->PrintNode(*ptr);
+			ptr->Print(false);
 
 		ptr = ptr->next;
 	}

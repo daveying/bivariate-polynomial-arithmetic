@@ -39,7 +39,7 @@ public:
 	void Inverse();
 
 	//substruct another monadic polynomial from this mondiac polynomial
-	void Substract(const MonadicPolynomial &another);
+	void Subtract(const MonadicPolynomial &another);
 	
 private:
 	MonadicPolynomialNode *monadicPolynomial_;	//head of monadic polynomail nodes
@@ -52,10 +52,6 @@ private:
 	//insert a new monadic polynomial node into this monadic polynomial list. 
 	//we should insert new item to right place or merge to original node to keep bigger order come first.
 	void Insert(const MonadicPolynomialNode &node);
-
-	//print a node of monadic polynomial.
-	//TODO this method should move to class MondicPolynomialNode
-	void PrintNode(const MonadicPolynomialNode &node, bool first = false);
 	
 };
 
